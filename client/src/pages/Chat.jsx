@@ -88,8 +88,8 @@ const Container = styled.div`
   align-items: center;
   background-color: #131324;
   .container {
-    height: 85vh;
-    width: 85vw;
+    height: 98%;
+    width: 99%;
     background-color: #00000076;
     display: grid;
     grid-template-columns: 25% 75%;

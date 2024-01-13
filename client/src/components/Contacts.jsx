@@ -20,7 +20,7 @@ export default function Contacts({ contacts, changeChat }) {
         const data = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
-        // console.log(data);
+        console.log(data);
         setCurrentUserName(data.username);
         setCurrentUserImage(data.avatarImage);
       } catch (error) {
@@ -28,11 +28,9 @@ export default function Contacts({ contacts, changeChat }) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData(); // Call the asynchronous function
-  
   }, []); // Empty dependency array to run the effect once on mount
-  
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
