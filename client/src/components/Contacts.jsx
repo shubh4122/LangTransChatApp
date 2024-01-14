@@ -41,8 +41,8 @@ export default function Contacts({ contacts, changeChat }) {
       {currentUserImage && currentUserImage && (
         <Container>
           <div className="brand">
-            <img src={Logo} alt="logo" />
-            <h3>chatBOOK</h3>
+            {/* <img src={Logo} alt="logo" /> */}
+            <h3>Friends List</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -85,17 +85,17 @@ export default function Contacts({ contacts, changeChat }) {
 }
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  // border: 1px solid white;
+  grid-template-rows: 5% 85% 10%;
   overflow: hidden;
   background-color: #080420;
   .brand {
+    // border: 1px solid white;
     display: flex;
     align-items: center;
     gap: 1rem;
     justify-content: center;
-    img {
-      height: 2rem;
-    }
+    background-color: #0d0d30;
     h3 {
       color: white;
       text-transform: uppercase;
@@ -150,7 +150,7 @@ const Container = styled.div`
     gap: 2rem;
     .avatar {
       img {
-        height: 4rem;
+        height: 3rem;
         max-inline-size: 100%;
       }
     }
