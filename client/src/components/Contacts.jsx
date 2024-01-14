@@ -106,7 +106,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     overflow: auto;
-    gap: 0.8rem;
+    gap: 0.3rem;
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
@@ -116,10 +116,10 @@ const Container = styled.div`
       }
     }
     .contact {
-      background-color: #ffffff34;
-      min-height: 5rem;
+      background-color: #ffffff20;
+      min-height: 3rem;
       cursor: pointer;
-      width: 90%;
+      width: 99%;
       border-radius: 0.2rem;
       padding: 0.4rem;
       display: flex;
@@ -138,7 +138,7 @@ const Container = styled.div`
       }
     }
     .selected {
-      background-color: #9a86f3;
+      background-color: #9a86f350;
     }
   }
 
