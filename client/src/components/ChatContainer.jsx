@@ -28,24 +28,23 @@ export default function ChatContainer({ currentChat, socket }) {
         const data = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
-        
+
         const response = await axios.post(recieveMessageRoute, {
           from: data._id,
           to: currentChat._id,
         });
-        
+
         setMessages(response.data);
       } catch (error) {
         // Handle errors, e.g., show an error message to the user
         console.error("Error fetching messages:", error);
       }
     };
-  
+
     if (currentChat) {
       fetchData();
     }
   }, [currentChat]);
-  
 
   useEffect(() => {
     const getCurrentChat = async () => {
@@ -94,6 +93,9 @@ export default function ChatContainer({ currentChat, socket }) {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  function displayMsg(message) {
+    return message.fromSelf === true ? message.message : message.translation;
+  }
   return (
     <Container>
       <div className="chat-header">
@@ -120,7 +122,7 @@ export default function ChatContainer({ currentChat, socket }) {
                 }`}
               >
                 <div className="content ">
-                  <p>{message.message}</p>
+                  <p>{displayMsg(message)}</p>
                 </div>
               </div>
             </div>
