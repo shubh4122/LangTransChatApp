@@ -11,30 +11,30 @@ const Navbar = () => {
           <h3>chatBOOK</h3>
         </div>
 
-        <div class="search-box">
+        <div className="search-box">
           <input type="text" placeholder="Search..." />
           <button type="submit">Search</button>
         </div>
 
-        <div class="dropdown">
-          <button class="dropbtn">
+        <div className="dropdown">
+          <button className="dropbtn">
             <img src={LangTranslation} />
           </button>
-          <div class="dropdown-content">
+          <div className="dropdown-content">
             <form>
               <h3>Default language:</h3>
               <br />
               <input type="radio" id="en" name="radiogroup" value="English" />
-              <label for="en">English</label>
+              <label htmlFor="en">English</label>
               <br />
               <input type="radio" id="fr" name="radiogroup" value="French" />
-              <label for="fr">French</label>
+              <label htmlFor="fr">French</label>
               <br />
               <input type="radio" id="it" name="radiogroup" value="Italian" />
-              <label for="it">Italian</label>
+              <label htmlFor="it">Italian</label>
               <br />
               <input type="radio" id="de" name="radiogroup" value="German" />
-              <label for="de">German</label>
+              <label htmlFor="de">German</label>
             </form>
           </div>
         </div>
