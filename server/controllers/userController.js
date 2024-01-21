@@ -62,7 +62,12 @@ module.exports.searchUsers = async (req, res, next) => {
 
     const users = await User.find({
       $and: [
-        { $or: [{ username: identifier }, { email: identifier }] },
+        {
+          $or: [
+            { username: { $regex: identifier, $options: "i" } },
+            { email: { $regex: identifier, $options: "i" } },
+          ],
+        },
         { _id: { $ne: self } },
       ],
     }).select(["username", "email", "language", "avatarImage", "_id"]);
