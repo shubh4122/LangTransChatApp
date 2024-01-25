@@ -1,8 +1,39 @@
 import styled from "styled-components";
 import Logo from "../assets/logo.svg";
 import LangTranslation from "../assets/langChangeBtn.png";
+import { useEffect, useState } from "react";
+import axios from "axios";
+import { searchUserRoute } from "../utils/APIRoutes";
 
-const Navbar = () => {
+const Navbar = ({ currentUser }) => {
+  const [showSearchDiv, setShowSearchDiv] = useState(false);
+  const [searchRes, setSearchRes] = useState([]);
+  const [identifier, setIdentifier] = useState(null);
+
+  const dismissSearchRes = () => {
+    setShowSearchDiv(false);
+  };
+
+  const showSearchRes = async () => {
+    setShowSearchDiv(true);
+
+    try {
+      console.log(currentUser._id);
+      const searchResponse = await axios.get(
+        `${searchUserRoute}/${identifier}/${currentUser._id}`
+      );
+
+      setSearchRes(searchResponse.data);
+      console.log(searchRes);
+    } catch (error) {
+      console.log(`Error in fetching the search results: \n${error}`);
+    }
+  };
+
+  const doNothing = (e) => {
+    e.stopPropagation(); // VV IMP: Event Bubbling is prevented using this. EB is just flow of click control from the clicked elem to higher elem.
+  };
+
   return (
     <Container>
       <nav className="navbar">
@@ -12,8 +43,16 @@ const Navbar = () => {
         </div>
 
         <div className="search-box">
-          <input type="text" placeholder="Search..." />
-          <button type="submit">Search</button>
+          <input
+            type="text"
+            placeholder="Search..."
+            onChange={(e) => {
+              setIdentifier(e.target.value);
+            }}
+          />
+          <button type="submit" onClick={showSearchRes}>
+            Search
+          </button>
         </div>
 
         <div className="dropdown">
@@ -39,6 +78,35 @@ const Navbar = () => {
           </div>
         </div>
       </nav>
+
+      {showSearchDiv && (
+        <div className="search-results-fullscreen" onClick={dismissSearchRes}>
+          <div className="search-results" onClick={doNothing}>
+            {searchRes.map((user, index) => {
+              return (
+                <div
+                  key={user._id}
+                  className="userContainerSearch"
+                  onClick={openChat(index, user)}
+                >
+                  <div className="avatar">
+                    <img
+                      src={`data:image/svg+xml;base64,${user.avatarImage}`}
+                      alt="user avatar"
+                    />
+                  </div>
+                  <div className="username">
+                    <h3>{user.username}</h3>
+                  </div>
+                  <div className="userLanguage">
+                    <h5>{user.language}</h5>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+        </div>
+      )}
     </Container>
   );
 };
@@ -112,6 +180,65 @@ const Container = styled.div`
     cursor: pointer;
   }
 
+  .search-results-fullscreen {
+    position: absolute;
+    background-color: #00000099;
+    height: 100%;
+    width: 100%;
+    z-index: 1;
+  }
+  .search-results {
+    background-color: #131324;
+    border-radius: 30px;
+    position: absolute;
+    left: 25%;
+    top: 1%;
+    height: auto;
+    width: 50%;
+    z-index: 10;
+    padding: 1%;
+    display: grid;
+    // grid-template-columns: 23% 23% 23% 23%;
+    grid-template-columns: repeat(
+      auto-fit,
+      minmax(200px, 1fr)
+    ); //auto takes space with min of 200px
+    grid-auto-rows: 1fr;
+    grid-column-gap: 3%;
+    grid-row-gap: 5%;
+  }
+
+  .userContainerSearch {
+    border: 1px solid white;
+    border-radius: 30px;
+    background-color: #ffffff10;
+    height: 100%;
+    cursor: pointer;
+    width: 100%;
+    padding: 0.4rem;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+    align-items: center;
+    transition: 0.5s ease-in-out;
+    .avatar {
+      margin-top: 10px;
+      img {
+        height: 3rem;
+      }
+    }
+    .username {
+      h3 {
+        color: white;
+      }
+    }
+    .userLanguage {
+      h5 {
+        color: white;
+      }
+    }
+  }
+
   .dropdown {
     // border: 1px solid white;
     display: flex;
@@ -151,8 +278,8 @@ const Container = styled.div`
     box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
     border-radius: 5px;
     padding: 12px 16px;
-    input{
-        margin: 10px;
+    input {
+      margin: 10px;
     }
   }
 

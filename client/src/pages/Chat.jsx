@@ -70,7 +70,7 @@ export default function Chat() {
   return (
     <>
       <Container>
-        <Navbar />
+        <Navbar currentUser={currentUser}/>
         <div className="container">
           <Contacts contacts={contacts} changeChat={handleChatChange} />
           {currentChat === undefined ? (
