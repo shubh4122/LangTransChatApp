@@ -4,6 +4,7 @@ import LangTranslation from "../assets/langChangeBtn.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { searchUserRoute } from "../utils/APIRoutes";
+import Logout from "./Logout";
 
 const Navbar = ({ currentUser, changeChat }) => {
   const [showSearchDiv, setShowSearchDiv] = useState(false);
@@ -58,7 +59,9 @@ const Navbar = ({ currentUser, changeChat }) => {
           </button>
         </div>
 
-        <div className="dropdown">
+        <Logout />
+
+        {/* <div className="dropdown">
           <button className="dropbtn">
             <img src={LangTranslation} />
           </button>
@@ -79,7 +82,7 @@ const Navbar = ({ currentUser, changeChat }) => {
               <label htmlFor="de">German</label>
             </form>
           </div>
-        </div>
+        </div> */}
       </nav>
 
       {showSearchDiv && (
@@ -122,6 +125,7 @@ const Container = styled.div`
   width: 100%;
   height: 60px;
   background-color: #ffffff10;
+    gap:10px;
   //   width: 99%;
   // border: 1px solid white;
   //   border-radius: 20px;
@@ -130,7 +134,7 @@ const Container = styled.div`
     width: 100%;
     height: 60px;
     display: grid;
-    grid-template-columns: 10% 85% 5%;
+    grid-template-columns: 11% 85% 3%;
     grid-template-rows: 100%;
     //imp as without this there was an overflow/ divs size was huge.
     // column-gap: 30px;
