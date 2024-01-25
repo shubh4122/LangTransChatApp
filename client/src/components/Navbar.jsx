@@ -5,7 +5,7 @@ import { useEffect, useState } from "react";
 import axios from "axios";
 import { searchUserRoute } from "../utils/APIRoutes";
 
-const Navbar = ({ currentUser }) => {
+const Navbar = ({ currentUser, changeChat }) => {
   const [showSearchDiv, setShowSearchDiv] = useState(false);
   const [searchRes, setSearchRes] = useState([]);
   const [identifier, setIdentifier] = useState(null);
@@ -18,13 +18,11 @@ const Navbar = ({ currentUser }) => {
     setShowSearchDiv(true);
 
     try {
-      console.log(currentUser._id);
       const searchResponse = await axios.get(
         `${searchUserRoute}/${identifier}/${currentUser._id}`
       );
 
       setSearchRes(searchResponse.data);
-      console.log(searchRes);
     } catch (error) {
       console.log(`Error in fetching the search results: \n${error}`);
     }
@@ -32,6 +30,11 @@ const Navbar = ({ currentUser }) => {
 
   const doNothing = (e) => {
     e.stopPropagation(); // VV IMP: Event Bubbling is prevented using this. EB is just flow of click control from the clicked elem to higher elem.
+  };
+
+  const openChat = (user) => {
+    changeChat(user);
+    dismissSearchRes();
   };
 
   return (
@@ -82,12 +85,12 @@ const Navbar = ({ currentUser }) => {
       {showSearchDiv && (
         <div className="search-results-fullscreen" onClick={dismissSearchRes}>
           <div className="search-results" onClick={doNothing}>
-            {searchRes.map((user, index) => {
+            {searchRes.map((user) => {
               return (
                 <div
                   key={user._id}
-                  className="userContainerSearch"
-                  onClick={openChat(index, user)}
+                  className={"userContainerSearch"}
+                  onClick={() => openChat(user)}
                 >
                   <div className="avatar">
                     <img
