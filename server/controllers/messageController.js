@@ -36,11 +36,10 @@ module.exports.addMessage = async (req, res, next) => {
     const senderCode = countries[sender.language];
     const recieverCode = countries[reciever.language];
 
-    const translatedMsg = await translate.translate(
-      message.trim(),
-      senderCode,
-      recieverCode
-    );
+    const translatedMsg =
+      senderCode === recieverCode
+        ? message
+        : await translate.translate(message.trim(), senderCode, recieverCode);
 
     // console.log(translatedMsg);
 
