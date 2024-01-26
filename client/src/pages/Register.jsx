@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { registerRoute } from "../utils/APIRoutes";
 
 export default function Register() {
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
@@ -84,6 +85,10 @@ export default function Register() {
     }
   };
 
+  const handleShowPw = () => {
+    setShowPassword(showPassword ? false : true);
+  };
+
   return (
     <>
       <FormContainer>
@@ -93,30 +98,48 @@ export default function Register() {
             <h1>chatBOOK</h1>
           </div>
           <input
+            className="input"
             type="text"
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}
           />
           <input
+            className="input"
             type="email"
             placeholder="Email"
             name="email"
             onChange={(e) => handleChange(e)}
           />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={(e) => handleChange(e)}
-          />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            onChange={(e) => handleChange(e)}
-          />
-          <button type="submit">Create User</button>
+          <div className="pwd">
+            <input
+              className="password"
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="Password"
+              name="password"
+              onChange={(e) => handleChange(e)}
+            />
+            <button type="button" className="showPw" onClick={handleShowPw}>
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+
+          <div className="pwd">
+            <input
+              className="password"
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              onChange={(e) => handleChange(e)}
+            />
+            <button type="button" className="showPw" onClick={handleShowPw}>
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+
+          <button className="button" type="submit">
+            Create User
+          </button>
           <span>
             Already have an account ? <Link to="/login">Login.</Link>
           </span>
@@ -150,6 +173,32 @@ const FormContainer = styled.div`
     }
   }
 
+  .pwd {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-column-gap: 3%;
+    border: 0.1rem solid #4e0eff;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .password {
+    // border: 0.1rem solid #4e0eff;
+    border: none;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .showPw {
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -158,7 +207,7 @@ const FormContainer = styled.div`
     border-radius: 2rem;
     padding: 3rem 5rem;
   }
-  input {
+  .input {
     background-color: transparent;
     padding: 1rem;
     border: 0.1rem solid #4e0eff;
@@ -171,7 +220,7 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
-  button {
+  .button {
     background-color: #4e0eff;
     color: white;
     padding: 1rem 2rem;
