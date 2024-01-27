@@ -1,4 +1,7 @@
+const Users = require("../models/userModel");
 const Messages = require("../models/messageModel");
+const translate = require("../utils/translationModule");
+const { countries } = require("../utils/countries");
 
 module.exports.getMessages = async (req, res, next) => {
   try {
@@ -14,6 +17,8 @@ module.exports.getMessages = async (req, res, next) => {
       return {
         fromSelf: msg.sender.toString() === from,
         message: msg.message.text,
+        translation: msg.translation.text,
+        //add translation get message.
       };
     });
     res.json(projectedMessages);
@@ -24,13 +29,28 @@ module.exports.getMessages = async (req, res, next) => {
 
 module.exports.addMessage = async (req, res, next) => {
   try {
-    const { from, to, message } = req.body;
+    const { message, from, to } = req.body;
+    const sender = await Users.findById(from);
+    const reciever = await Users.findById(to);
+
+    const senderCode = countries[sender.language];
+    const recieverCode = countries[reciever.language];
+
+    const translatedMsg =
+      senderCode === recieverCode
+        ? message
+        : await translate.translate(message.trim(), senderCode, recieverCode);
+
+    // console.log(translatedMsg);
+
     const data = await Messages.create({
       message: { text: message },
+      translation: { text: translatedMsg },
       users: [from, to],
       sender: from,
     });
 
+    // console.log(data);
     if (data) return res.json({ msg: "Message added successfully." });
     else return res.json({ msg: "Failed to add message to the database" });
   } catch (ex) {

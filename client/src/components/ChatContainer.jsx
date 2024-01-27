@@ -10,6 +10,7 @@ export default function ChatContainer({ currentChat, socket }) {
   const [messages, setMessages] = useState([]);
   const scrollRef = useRef();
   const [arrivalMessage, setArrivalMessage] = useState(null);
+  const [isLoading, setIsLoading] = useState(false);
 
   // useEffect(async () => {
   //   const data = await JSON.parse(
@@ -28,24 +29,23 @@ export default function ChatContainer({ currentChat, socket }) {
         const data = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
-        
+
         const response = await axios.post(recieveMessageRoute, {
           from: data._id,
           to: currentChat._id,
         });
-        
+
         setMessages(response.data);
       } catch (error) {
         // Handle errors, e.g., show an error message to the user
         console.error("Error fetching messages:", error);
       }
     };
-  
+
     if (currentChat) {
       fetchData();
     }
   }, [currentChat]);
-  
 
   useEffect(() => {
     const getCurrentChat = async () => {
@@ -59,6 +59,7 @@ export default function ChatContainer({ currentChat, socket }) {
   }, [currentChat]);
 
   const handleSendMsg = async (msg) => {
+    setIsLoading(true);
     const data = await JSON.parse(
       localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
     );
@@ -76,6 +77,7 @@ export default function ChatContainer({ currentChat, socket }) {
     const msgs = [...messages];
     msgs.push({ fromSelf: true, message: msg });
     setMessages(msgs);
+    setIsLoading(false);
   };
 
   useEffect(() => {
@@ -94,6 +96,11 @@ export default function ChatContainer({ currentChat, socket }) {
     scrollRef.current?.scrollIntoView({ behavior: "smooth" });
   }, [messages]);
 
+  function displayMsg(message) {
+    const msg =
+      message.fromSelf === true ? message.message : message.translation;
+    return msg;
+  }
   return (
     <Container>
       <div className="chat-header">
@@ -108,10 +115,9 @@ export default function ChatContainer({ currentChat, socket }) {
             <h3>{currentChat.username}</h3>
           </div>
         </div>
-        <Logout />
       </div>
       <div className="chat-messages">
-        {messages.map((message) => {
+        {messages.map((message, index) => {
           return (
             <div ref={scrollRef} key={uuidv4()}>
               <div
@@ -120,13 +126,25 @@ export default function ChatContainer({ currentChat, socket }) {
                 }`}
               >
                 <div className="content ">
-                  <p>{message.message}</p>
+                  <p>{displayMsg(message)}</p>
                 </div>
               </div>
             </div>
           );
         })}
       </div>
+
+      <div>
+        {isLoading && (
+          <div className="loader">
+            <p className="loaderText">
+              Translating and Sending Your Message.......
+            </p>
+          </div>
+        )}
+        {/* Change its color, do some more changes and see autoscroll. */}
+      </div>
+
       <ChatInput handleSendMsg={handleSendMsg} />
     </Container>
   );
@@ -134,12 +152,27 @@ export default function ChatContainer({ currentChat, socket }) {
 
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 80% 10%;
+  grid-template-rows: 10% 75% 5% 10%;
   gap: 0.1rem;
   overflow: hidden;
   @media screen and (min-width: 720px) and (max-width: 1080px) {
     grid-template-rows: 15% 70% 15%;
   }
+
+  .loader {
+    display: flex;
+    background-color: #080420;
+    height: 100%;
+    align-items: center;
+    padding-left: 20px;
+  }
+
+  .loaderText {
+    color: #ffffff;
+    font-size: 1.5rem;
+    // border: 1px solid white;
+  }
+
   .chat-header {
     display: flex;
     justify-content: space-between;

@@ -20,7 +20,6 @@ export default function Contacts({ contacts, changeChat }) {
         const data = await JSON.parse(
           localStorage.getItem(process.env.REACT_APP_LOCALHOST_KEY)
         );
-        // console.log(data);
         setCurrentUserName(data.username);
         setCurrentUserImage(data.avatarImage);
       } catch (error) {
@@ -28,11 +27,9 @@ export default function Contacts({ contacts, changeChat }) {
         console.error("Error fetching data:", error);
       }
     };
-  
+
     fetchData(); // Call the asynchronous function
-  
   }, []); // Empty dependency array to run the effect once on mount
-  
 
   const changeCurrentChat = (index, contact) => {
     setCurrentSelected(index);
@@ -43,8 +40,8 @@ export default function Contacts({ contacts, changeChat }) {
       {currentUserImage && currentUserImage && (
         <Container>
           <div className="brand">
-            <img src={Logo} alt="logo" />
-            <h3>chatBOOK</h3>
+            {/* <img src={Logo} alt="logo" /> */}
+            <h3>Friends List</h3>
           </div>
           <div className="contacts">
             {contacts.map((contact, index) => {
@@ -87,17 +84,17 @@ export default function Contacts({ contacts, changeChat }) {
 }
 const Container = styled.div`
   display: grid;
-  grid-template-rows: 10% 75% 15%;
+  // border: 1px solid white;
+  grid-template-rows: 5% 85% 10%;
   overflow: hidden;
   background-color: #080420;
   .brand {
+    // border: 1px solid white;
     display: flex;
     align-items: center;
     gap: 1rem;
     justify-content: center;
-    img {
-      height: 2rem;
-    }
+    background-color: #0d0d30;
     h3 {
       color: white;
       text-transform: uppercase;
@@ -108,7 +105,7 @@ const Container = styled.div`
     flex-direction: column;
     align-items: center;
     overflow: auto;
-    gap: 0.8rem;
+    gap: 0.3rem;
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
@@ -118,10 +115,10 @@ const Container = styled.div`
       }
     }
     .contact {
-      background-color: #ffffff34;
-      min-height: 5rem;
+      background-color: #ffffff20;
+      min-height: 3rem;
       cursor: pointer;
-      width: 90%;
+      width: 99%;
       border-radius: 0.2rem;
       padding: 0.4rem;
       display: flex;
@@ -140,7 +137,7 @@ const Container = styled.div`
       }
     }
     .selected {
-      background-color: #9a86f3;
+      background-color: #9a86f350;
     }
   }
 
@@ -152,7 +149,7 @@ const Container = styled.div`
     gap: 2rem;
     .avatar {
       img {
-        height: 4rem;
+        height: 3rem;
         max-inline-size: 100%;
       }
     }

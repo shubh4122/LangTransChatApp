@@ -19,6 +19,10 @@ const userSchema = new mongoose.Schema({
     required: true,
     min: 8,
   },
+  language: {
+    type: String,
+    default: "English",
+  },
   isAvatarImageSet: {
     type: Boolean,
     default: false,
