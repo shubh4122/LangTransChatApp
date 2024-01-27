@@ -6,9 +6,11 @@ import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerRoute } from "../utils/APIRoutes";
+import { countries } from "../utils/countries";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
+  const [selectedLanguage, setSelectedLanguage] = useState("English");
   const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
@@ -111,6 +113,20 @@ export default function Register() {
             name="email"
             onChange={(e) => handleChange(e)}
           />
+
+          <input
+            list="languages"
+            name="language-chooser"
+            className="input"
+            placeholder="Enter preferred Language"
+            onChange={(e) => setSelectedLanguage(e.target.value)}
+          />
+          <datalist id="languages">
+            {Object.keys(countries).map((country, index) => (
+              <option key={index} value={country} />
+            ))}
+          </datalist>
+
           <div className="pwd">
             <input
               className="password"
