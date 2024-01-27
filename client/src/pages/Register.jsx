@@ -10,7 +10,6 @@ import { countries } from "../utils/countries";
 
 export default function Register() {
   const [showPassword, setShowPassword] = useState(false);
-  const [selectedLanguage, setSelectedLanguage] = useState("English");
   const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
@@ -22,6 +21,7 @@ export default function Register() {
   const [values, setValues] = useState({
     username: "",
     email: "",
+    language: "",
     password: "",
     confirmPassword: "",
   });
@@ -37,7 +37,7 @@ export default function Register() {
   };
 
   const handleValidation = () => {
-    const { password, confirmPassword, username, email } = values;
+    const { password, confirmPassword, username, email, language } = values;
     if (password !== confirmPassword) {
       toast.error(
         "Password and confirm password should be same.",
@@ -59,18 +59,21 @@ export default function Register() {
     } else if (email === "") {
       toast.error("Email is required.", toastOptions);
       return false;
+    } else if (language === "") {
+      toast.error("Please select your preferred language", toastOptions);
+      return false;
     }
-
     return true;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { email, username, password } = values;
+      const { email, username, language, password } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
+        language,
         password,
       });
 
@@ -116,10 +119,10 @@ export default function Register() {
 
           <input
             list="languages"
-            name="language-chooser"
+            name="language"
             className="input"
             placeholder="Enter preferred Language"
-            onChange={(e) => setSelectedLanguage(e.target.value)}
+            onChange={(e) => handleChange(e)}
           />
           <datalist id="languages">
             {Object.keys(countries).map((country, index) => (
