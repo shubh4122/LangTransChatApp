@@ -19,7 +19,7 @@ module.exports.login = async (req, res, next) => {
 
 module.exports.register = async (req, res, next) => {
   try {
-    const { username, email, password } = req.body;
+    const { username, email, password, language } = req.body;
     const usernameCheck = await User.findOne({ username });
     if (usernameCheck)
       return res.json({ msg: "Username already used", status: false });
@@ -31,6 +31,7 @@ module.exports.register = async (req, res, next) => {
       email,
       username,
       password: hashedPassword,
+      language,
     });
     delete user.password;
     return res.json({ status: true, user });
@@ -50,6 +51,30 @@ module.exports.getAllUsers = async (req, res, next) => {
     return res.json(users);
   } catch (ex) {
     next(ex);
+  }
+};
+
+module.exports.searchUsers = async (req, res, next) => {
+  try {
+    //use or and $e for name and email, and $ne for self.
+    const identifier = req.params.identifier;
+    const self = req.params.self;
+
+    const users = await User.find({
+      $and: [
+        {
+          $or: [
+            { username: { $regex: identifier, $options: "i" } },
+            { email: { $regex: identifier, $options: "i" } },
+          ],
+        },
+        { _id: { $ne: self } },
+      ],
+    }).select(["username", "email", "language", "avatarImage", "_id"]);
+
+    return res.status(200).json(users);
+  } catch (error) {
+    next(error);
   }
 };
 

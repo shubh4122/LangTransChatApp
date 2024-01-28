@@ -28,8 +28,9 @@ const Button = styled.button`
   justify-content: center;
   align-items: center;
   padding: 0.5rem;
-  border-radius: 0.5rem;
-  background-color: #9a86f3;
+  border-radius: 20px;
+  margin: 5px;
+  background-color: #2b1f59;
   border: none;
   cursor: pointer;
   svg {
