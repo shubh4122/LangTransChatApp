@@ -6,8 +6,10 @@ import Logo from "../assets/logo.svg";
 import { ToastContainer, toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { registerRoute } from "../utils/APIRoutes";
+import { countries } from "../utils/countries";
 
 export default function Register() {
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const toastOptions = {
     position: "bottom-right",
@@ -19,6 +21,7 @@ export default function Register() {
   const [values, setValues] = useState({
     username: "",
     email: "",
+    language: "",
     password: "",
     confirmPassword: "",
   });
@@ -34,7 +37,7 @@ export default function Register() {
   };
 
   const handleValidation = () => {
-    const { password, confirmPassword, username, email } = values;
+    const { password, confirmPassword, username, email, language } = values;
     if (password !== confirmPassword) {
       toast.error(
         "Password and confirm password should be same.",
@@ -56,18 +59,21 @@ export default function Register() {
     } else if (email === "") {
       toast.error("Email is required.", toastOptions);
       return false;
+    } else if (language === "") {
+      toast.error("Please select your preferred language", toastOptions);
+      return false;
     }
-
     return true;
   };
 
   const handleSubmit = async (event) => {
     event.preventDefault();
     if (handleValidation()) {
-      const { email, username, password } = values;
+      const { email, username, language, password } = values;
       const { data } = await axios.post(registerRoute, {
         username,
         email,
+        language,
         password,
       });
 
@@ -84,6 +90,10 @@ export default function Register() {
     }
   };
 
+  const handleShowPw = () => {
+    setShowPassword(showPassword ? false : true);
+  };
+
   return (
     <>
       <FormContainer>
@@ -93,30 +103,62 @@ export default function Register() {
             <h1>chatBOOK</h1>
           </div>
           <input
+            className="input"
             type="text"
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}
           />
           <input
+            className="input"
             type="email"
             placeholder="Email"
             name="email"
             onChange={(e) => handleChange(e)}
           />
+
           <input
-            type="password"
-            placeholder="Password"
-            name="password"
+            list="languages"
+            name="language"
+            className="input"
+            placeholder="Enter preferred Language"
             onChange={(e) => handleChange(e)}
           />
-          <input
-            type="password"
-            placeholder="Confirm Password"
-            name="confirmPassword"
-            onChange={(e) => handleChange(e)}
-          />
-          <button type="submit">Create User</button>
+          <datalist id="languages">
+            {Object.keys(countries).map((country, index) => (
+              <option key={index} value={country} />
+            ))}
+          </datalist>
+
+          <div className="pwd">
+            <input
+              className="password"
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="Password"
+              name="password"
+              onChange={(e) => handleChange(e)}
+            />
+            <button type="button" className="showPw" onClick={handleShowPw}>
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+
+          <div className="pwd">
+            <input
+              className="password"
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="Confirm Password"
+              name="confirmPassword"
+              onChange={(e) => handleChange(e)}
+            />
+            <button type="button" className="showPw" onClick={handleShowPw}>
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+
+          <button className="button" type="submit">
+            Create User
+          </button>
           <span>
             Already have an account ? <Link to="/login">Login.</Link>
           </span>
@@ -150,6 +192,32 @@ const FormContainer = styled.div`
     }
   }
 
+  .pwd {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-column-gap: 3%;
+    border: 0.1rem solid #4e0eff;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .password {
+    // border: 0.1rem solid #4e0eff;
+    border: none;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .showPw {
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -158,7 +226,7 @@ const FormContainer = styled.div`
     border-radius: 2rem;
     padding: 3rem 5rem;
   }
-  input {
+  .input {
     background-color: transparent;
     padding: 1rem;
     border: 0.1rem solid #4e0eff;
@@ -171,7 +239,7 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
-  button {
+  .button {
     background-color: #4e0eff;
     color: white;
     padding: 1rem 2rem;

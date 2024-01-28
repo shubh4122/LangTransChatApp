@@ -1,6 +1,7 @@
 const Users = require("../models/userModel");
 const Messages = require("../models/messageModel");
 const translate = require("../utils/translationModule");
+const { countries } = require("../utils/countries");
 
 module.exports.getMessages = async (req, res, next) => {
   try {
@@ -32,13 +33,15 @@ module.exports.addMessage = async (req, res, next) => {
     const sender = await Users.findById(from);
     const reciever = await Users.findById(to);
 
-    const translatedMsg = await translate.translate(
-      message,
-      sender.language,
-      reciever.language
-    );
+    const senderCode = countries[sender.language];
+    const recieverCode = countries[reciever.language];
 
-    console.log(translatedMsg);
+    const translatedMsg =
+      senderCode === recieverCode
+        ? message
+        : await translate.translate(message.trim(), senderCode, recieverCode);
+
+    // console.log(translatedMsg);
 
     const data = await Messages.create({
       message: { text: message },
@@ -47,7 +50,7 @@ module.exports.addMessage = async (req, res, next) => {
       sender: from,
     });
 
-    console.log(data);
+    // console.log(data);
     if (data) return res.json({ msg: "Message added successfully." });
     else return res.json({ msg: "Failed to add message to the database" });
   } catch (ex) {

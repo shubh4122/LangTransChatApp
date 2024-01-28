@@ -8,6 +8,7 @@ import "react-toastify/dist/ReactToastify.css";
 import { loginRoute } from "../utils/APIRoutes";
 
 export default function Login() {
+  const [showPassword, setShowPassword] = useState(false);
   const navigate = useNavigate();
   const [values, setValues] = useState({ username: "", password: "" });
   const toastOptions = {
@@ -60,6 +61,9 @@ export default function Login() {
       }
     }
   };
+  const handleShowPw = () => {
+    setShowPassword(showPassword ? false : true);
+  };
 
   return (
     <>
@@ -70,19 +74,28 @@ export default function Login() {
             <h1>chatBOOK</h1>
           </div>
           <input
+            className="input"
             type="text"
             placeholder="Username"
             name="username"
             onChange={(e) => handleChange(e)}
             min="3"
           />
-          <input
-            type="password"
-            placeholder="Password"
-            name="password"
-            onChange={(e) => handleChange(e)}
-          />
-          <button type="submit">Log In</button>
+          <div className="pwd">
+            <input
+              className="password"
+              type={`${showPassword ? "text" : "password"}`}
+              placeholder="Password"
+              name="password"
+              onChange={(e) => handleChange(e)}
+            />
+            <button type="button" className="showPw" onClick={handleShowPw}>
+              {showPassword ? "HIDE" : "SHOW"}
+            </button>
+          </div>
+          <button type="submit" className="button">
+            Log In
+          </button>
           <span>
             Don't have an account ? <Link to="/register">Create One.</Link>
           </span>
@@ -116,6 +129,32 @@ const FormContainer = styled.div`
     }
   }
 
+  .pwd {
+    display: grid;
+    grid-template-columns: 80% 20%;
+    grid-column-gap: 3%;
+    border: 0.1rem solid #4e0eff;
+    padding: 1rem;
+    border-radius: 0.4rem;
+  }
+  .password {
+    // border: 0.1rem solid #4e0eff;
+    border: none;
+    background-color: transparent;
+    color: white;
+    width: 100%;
+    font-size: 1rem;
+    &:focus {
+      outline: none;
+    }
+  }
+
+  .showPw {
+    background-color: transparent;
+    border: none;
+    color: white;
+  }
+
   form {
     display: flex;
     flex-direction: column;
@@ -124,7 +163,7 @@ const FormContainer = styled.div`
     border-radius: 2rem;
     padding: 5rem;
   }
-  input {
+  .input {
     background-color: transparent;
     padding: 1rem;
     border: 0.1rem solid #4e0eff;
@@ -137,7 +176,7 @@ const FormContainer = styled.div`
       outline: none;
     }
   }
-  button {
+  .button {
     background-color: #4e0eff;
     color: white;
     padding: 1rem 2rem;

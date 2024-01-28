@@ -4,6 +4,7 @@ const {
   getAllUsers,
   setAvatar,
   logOut,
+  searchUsers,
 } = require("../controllers/userController");
 
 const router = require("express").Router();
@@ -13,5 +14,8 @@ router.post("/register", register);
 router.get("/allusers/:id", getAllUsers);
 router.post("/setavatar/:id", setAvatar);
 router.get("/logout/:id", logOut);
+router.route("/search/:identifier/:self").get(searchUsers);
+//this identifier can either be a name or an email. Remove self from results
+//-------- Note: we can use protect instead of passing self as param --------
 
 module.exports = router;

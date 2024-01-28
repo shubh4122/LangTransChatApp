@@ -54,6 +54,30 @@ module.exports.getAllUsers = async (req, res, next) => {
   }
 };
 
+module.exports.searchUsers = async (req, res, next) => {
+  try {
+    //use or and $e for name and email, and $ne for self.
+    const identifier = req.params.identifier;
+    const self = req.params.self;
+
+    const users = await User.find({
+      $and: [
+        {
+          $or: [
+            { username: { $regex: identifier, $options: "i" } },
+            { email: { $regex: identifier, $options: "i" } },
+          ],
+        },
+        { _id: { $ne: self } },
+      ],
+    }).select(["username", "email", "language", "avatarImage", "_id"]);
+
+    return res.status(200).json(users);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports.setAvatar = async (req, res, next) => {
   try {
     const userId = req.params.id;
