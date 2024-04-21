@@ -1,6 +1,7 @@
 const Users = require("../models/userModel");
 const Messages = require("../models/messageModel");
 const translate = require("../utils/translationModule");
+const translateM = require("../utils/translation.js")
 const { countries } = require("../utils/countries");
 
 module.exports.getMessages = async (req, res, next) => {
@@ -36,6 +37,20 @@ module.exports.addMessage = async (req, res, next) => {
     const senderCode = countries[sender.language];
     const recieverCode = countries[reciever.language];
 
+    //-------------------------------------------------------------------------------
+    //model
+
+    if (
+      (sender.language === "English" && reciever.language === "French") ||
+      (sender.language === "French" && reciever.language === "English")
+    ) {
+      translateM.setupTranslator(message.trim());
+      console.log("En Fr detected!!!");
+    }
+
+    //-------------------------------------------------------------------------------
+
+    
     const translatedMsg =
       senderCode === recieverCode
         ? message
