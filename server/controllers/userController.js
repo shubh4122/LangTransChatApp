@@ -40,6 +40,30 @@ module.exports.register = async (req, res, next) => {
   }
 };
 
+module.exports.addFriend = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+
+    // Check if the friendId already exists in the friends array
+    if (user.friends.includes(req.params.friendId)) {
+      return res
+        .status(400)
+        .json({ message: "Friend already exists in the list" });
+    }
+
+    user.friends.push(req.params.friendId);
+    await user.save();
+
+    return res.status(200).json(user);
+  } catch (err) {
+    res.status(500).json({ message: err.message });
+    next(err);
+  }
+};
+
 module.exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({ _id: { $ne: req.params.id } }).select([

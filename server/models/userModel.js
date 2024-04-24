@@ -23,6 +23,7 @@ const userSchema = new mongoose.Schema({
     type: String,
     default: "English",
   },
+  friends: Array,
   isAvatarImageSet: {
     type: Boolean,
     default: false,
