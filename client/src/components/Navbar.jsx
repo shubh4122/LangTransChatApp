@@ -46,10 +46,17 @@ const Navbar = ({ currentUser, changeChat }) => {
         .then((response) => {
           console.log(response.data);
         });
+
+      // also add current user as friend of other person
+      axios
+        .post(`${addFriendRoute}/${id}/${currentUser._id}`)
+        .then((response) => {
+          console.log(response.data);
+        });
     } catch (error) {
       console.error(error);
     }
-  }
+  };
 
   return (
     <Container>
@@ -138,7 +145,7 @@ const Container = styled.div`
   width: 100%;
   height: 60px;
   background-color: #ffffff10;
-    gap:10px;
+  gap: 10px;
   //   width: 99%;
   // border: 1px solid white;
   //   border-radius: 20px;

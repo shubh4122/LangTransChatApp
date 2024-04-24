@@ -48,16 +48,15 @@ module.exports.addFriend = async (req, res, next) => {
     }
 
     // Check if the friendId already exists in the friends array
-    if (user.friends.includes(req.params.friendId)) {
-      return res
-        .status(400)
-        .json({ message: "Friend already exists in the list" });
+    if (!user.friends.includes(req.params.friendId)) {
+      // return res
+      //   .status(400)
+      //   .json({ message: "Friend already exists in the list" });
+      user.friends.push(req.params.friendId);
+      await user.save();
+
+      return res.status(200).json(user);
     }
-
-    user.friends.push(req.params.friendId);
-    await user.save();
-
-    return res.status(200).json(user);
   } catch (err) {
     res.status(500).json({ message: err.message });
     next(err);
