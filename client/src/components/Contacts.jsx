@@ -44,6 +44,12 @@ export default function Contacts({ contacts, changeChat }) {
             <h3>Friends List</h3>
           </div>
           <div className="contacts">
+            {contacts.length === 0 && (
+              <div className="emptyList">
+                <h3>Friend List Empty</h3>
+                <p>Search and add friends</p>
+              </div>
+            )}
             {contacts.map((contact, index) => {
               return (
                 <div
@@ -100,12 +106,18 @@ const Container = styled.div`
       text-transform: uppercase;
     }
   }
+
   .contacts {
     display: flex;
     flex-direction: column;
     align-items: center;
     overflow: auto;
     gap: 0.3rem;
+    
+    .emptyList {
+      color: white;
+      margin-top: 70%;
+    }
     &::-webkit-scrollbar {
       width: 0.2rem;
       &-thumb {
