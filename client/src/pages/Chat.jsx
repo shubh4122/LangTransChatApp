@@ -3,7 +3,12 @@ import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { io } from "socket.io-client";
 import styled from "styled-components";
-import { allUsersRoute, host } from "../utils/APIRoutes";
+import {
+  allUsersRoute,
+  friendRoute,
+  host,
+  findUserByIdRoute,
+} from "../utils/APIRoutes";
 import ChatContainer from "../components/ChatContainer";
 import Contacts from "../components/Contacts";
 import Welcome from "../components/Welcome";
@@ -49,9 +54,24 @@ export default function Chat() {
         if (currentUser.isAvatarImageSet) {
           try {
             const response = await axios.get(
-              `${allUsersRoute}/${currentUser._id}`
+              `${friendRoute}/${currentUser._id}`
             );
-            setContacts(response.data);
+
+            const friends = [];
+
+            //handle for loop error, when friendIDlist empty
+
+            // Loop through the data array and make Axios GET requests
+            for (const friendId of response.data) {
+              const friend = await axios.get(
+                `${findUserByIdRoute}/${friendId}`
+              );
+              friends.push(friend.data);
+            }
+            // make a controller/route. to findById a user and return him, loop it. for the resp.data array. and store all these users in an array. return this to contact
+
+            console.log(friends);
+            setContacts(friends);
           } catch (error) {
             // Handle errors, e.g., show an error message to the user
             console.error("Error fetching data:", error);

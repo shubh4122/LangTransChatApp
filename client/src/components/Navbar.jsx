@@ -3,7 +3,7 @@ import Logo from "../assets/logo.svg";
 import LangTranslation from "../assets/langChangeBtn.png";
 import { useEffect, useState } from "react";
 import axios from "axios";
-import { addFriendRoute, searchUserRoute } from "../utils/APIRoutes";
+import { friendRoute, searchUserRoute } from "../utils/APIRoutes";
 import Logout from "./Logout";
 
 const Navbar = ({ currentUser, changeChat }) => {
@@ -41,18 +41,14 @@ const Navbar = ({ currentUser, changeChat }) => {
 
   const addFriend = (id) => {
     try {
-      axios
-        .post(`${addFriendRoute}/${currentUser._id}/${id}`)
-        .then((response) => {
-          console.log(response.data);
-        });
+      axios.post(`${friendRoute}/${currentUser._id}/${id}`).then((response) => {
+        console.log(response.data);
+      });
 
       // also add current user as friend of other person
-      axios
-        .post(`${addFriendRoute}/${id}/${currentUser._id}`)
-        .then((response) => {
-          console.log(response.data);
-        });
+      axios.post(`${friendRoute}/${id}/${currentUser._id}`).then((response) => {
+        console.log(response.data);
+      });
     } catch (error) {
       console.error(error);
     }

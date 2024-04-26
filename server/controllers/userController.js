@@ -63,6 +63,32 @@ module.exports.addFriend = async (req, res, next) => {
   }
 };
 
+module.exports.getFriend = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    // console.log(res.json(user.friends));
+    return res.json(user.friends);
+  } catch (err) {
+    console.error("your fucked up");
+    next(err);
+  }
+};
+
+module.exports.findUserById = async (req, res, next) => {
+  try {
+    const user = await User.findById(req.params.userId);
+    if (!user) {
+      return res.status(404).json({ message: "User not found" });
+    }
+    return res.json(user);
+  } catch (error) {
+    next(error);
+  }
+};
+
 module.exports.getAllUsers = async (req, res, next) => {
   try {
     const users = await User.find({ _id: { $ne: req.params.id } }).select([
