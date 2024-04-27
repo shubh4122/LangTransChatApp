@@ -14,10 +14,60 @@ input {
 
 body {
   max-height: 100vh;
-  max-width: 100vw;
+  max-width: 100%;
   overflow: hidden;
 }
 
 .Toastify__toast-theme--dark {
-  background-color: #00000076 !important;
+  background-color: #ebd4d476 !important;
+}
+
+/* Reset some default styles */
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+/* Main chat container */
+.chat-container {
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+/* Chat message style */
+.chat-message {
+  background-color: #cd0707;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 5px;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 500px) {
+  html {
+    font-size: 50%;
+    
+  }
+  *{
+    height: fit-content;
+  }
+  
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media screen and (max-width: 600px) {
+  .chat-container {
+    max-width: 100%;
+    padding: 10px;
+  }
+
+  .chat-message {
+    padding: 5px;
+    margin-bottom: 5px;
+  }
 }
