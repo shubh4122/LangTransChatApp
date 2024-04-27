@@ -37,4 +37,11 @@ const Button = styled.button`
     font-size: 1.3rem;
     color: #ebe7ff;
   }
+  @media screen and (max-width: 768px) {
+    padding: 0.3rem;
+    margin: 3px;
+    svg {
+      font-size: 1rem;
+    }
+  }
 `;

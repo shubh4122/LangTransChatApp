@@ -224,7 +224,9 @@ const FormContainer = styled.div`
     gap: 2rem;
     background-color: #00000076;
     border-radius: 2rem;
-    padding: 3rem 5rem;
+    padding: 3rem 2rem; /* Adjusted padding for iPhone 13 Pro Max */
+    width: 90%; /* Adjusted width for iPhone 13 Pro Max */
+    max-width: 500px; /* Added maximum width for better readability */
   }
   .input {
     background-color: transparent;
@@ -260,6 +262,16 @@ const FormContainer = styled.div`
       color: #4e0eff;
       text-decoration: none;
       font-weight: bold;
+    }
+  }
+  @media screen and (max-width: 428px) {
+    .brand {
+      img {
+        height: 3rem; /* Adjusted height for iPhone 13 Pro Max */
+      }
+      h1 {
+        font-size: 1.2rem; /* Adjusted font size for iPhone 13 Pro Max */
+      }
     }
   }
 `;

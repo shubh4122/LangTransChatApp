@@ -162,7 +162,7 @@ const Container = styled.div`
   .loader {
     display: flex;
     background-color: #080420;
-    height: 100%;
+    height: 10%;
     align-items: center;
     padding-left: 20px;
   }
@@ -212,7 +212,7 @@ const Container = styled.div`
       display: flex;
       align-items: center;
       .content {
-        max-width: 40%;
+        max-width: 100%;
         overflow-wrap: break-word;
         padding: 1rem;
         font-size: 1.1rem;

@@ -93,14 +93,20 @@ const Container = styled.div`
   gap: 10px;
   align-items: center;
   background-color: #131324;
+
   .container {
-    height: calc(100vh - 60px);
+    height: calc(100vh - 60px); /* Adjusted height for iPhone 13 Pro Max */
     width: 100%;
     background-color: #00000076;
     display: grid;
-    grid-template-columns: 25% 75%;
+    grid-template-columns: 100%; /* Single column layout for mobile */
+    
+    @media screen and (min-width: 428px) { /* iPhone 13 Pro Max width */
+      grid-template-columns: 25% 75%; /* Adjusted columns for larger screens */
+    }
+    
     @media screen and (min-width: 720px) and (max-width: 1080px) {
-      grid-template-columns: 35% 65%;
+      grid-template-columns: 35% 65%; /* Adjusted columns for medium-sized screens */
     }
   }
 `;
