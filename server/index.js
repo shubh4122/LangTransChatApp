@@ -9,7 +9,8 @@ require("dotenv").config();
 
 // app.use(cors());
 const corsOptions = {
-  origin: true, //included origin as true
+  // origin: true, //included origin as true
+  origin: ["https://lang-trans-chat-app-frontend.vercel.app"],
   credentials: true, //included credentials as true
 };
 
@@ -27,11 +28,10 @@ mongoose
   .catch((err) => {
     console.log(err.message);
   });
-  
 
-app.get("/",(req,res)=>{
-  res.json("server is ready")
-})
+app.get("/", (req, res) => {
+  res.json("server is ready");
+});
 
 app.use("/api/auth", authRoutes);
 app.use("/api/messages", messageRoutes);
@@ -45,7 +45,6 @@ const io = socket(server, {
     credentials: true,
   },
 });
-
 
 global.onlineUsers = new Map();
 io.on("connection", (socket) => {
