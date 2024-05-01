@@ -11,6 +11,7 @@ require("dotenv").config();
 const corsOptions = {
   // origin: true, //included origin as true
   origin: ["https://lang-trans-chat-app-frontend.vercel.app"],
+  methods: ["POST", "GET"],
   credentials: true, //included credentials as true
 };
 
