@@ -45,4 +45,9 @@ const Container = styled.div`
   span {
     color: #4e0eff;
   }
+  @media screen and (max-width: 428px) { /* iPhone 13 Pro Max width */
+    img {
+      height: 15rem; /* Adjusted height for iPhone 13 Pro Max */
+    }
+  }
 `;

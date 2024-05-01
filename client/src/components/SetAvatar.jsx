@@ -121,7 +121,7 @@ const Container = styled.div`
   justify-content: center;
   align-items: center;
   flex-direction: column;
-  gap: 3rem;
+  gap: 2rem;
   background-color: #131324;
   height: 100vh;
   width: 100vw;
@@ -133,27 +133,29 @@ const Container = styled.div`
   .title-container {
     h1 {
       color: white;
+      font-size: 2rem; /* Adjusted font size for iPhone 13 Pro Max */
     }
   }
   .avatars {
     display: flex;
-    gap: 2rem;
+    flex-wrap: wrap; /* Added to wrap avatars on smaller screens */
+    gap: 1rem;
 
     .avatar {
-      border: 0.4rem solid transparent;
-      padding: 0.4rem;
+      border: 0.3rem solid transparent;
+      padding: 0.3rem;
       border-radius: 5rem;
       display: flex;
       justify-content: center;
       align-items: center;
       transition: 0.5s ease-in-out;
       img {
-        height: 6rem;
-        transition: 0.5s ease-in-out;
+        height: 5rem;
+        // transition: 0.5s ease-in-out;
       }
     }
     .selected {
-      border: 0.4rem solid #4e0eff;
+      border: 0.3rem solid #4e0eff;
     }
   }
   .submit-btn {
@@ -164,10 +166,15 @@ const Container = styled.div`
     font-weight: bold;
     cursor: pointer;
     border-radius: 0.4rem;
-    font-size: 1rem;
+    font-size: 1.2rem;
     text-transform: uppercase;
     &:hover {
       background-color: #4e0eff;
+    }
+  }
+  @media screen and (max-width: 428px) { /* iPhone 13 Pro Max width */
+    .avatars {
+      justify-content: center; /* Center avatars on smaller screens */
     }
   }
 `;

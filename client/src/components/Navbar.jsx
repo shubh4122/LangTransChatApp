@@ -152,11 +152,12 @@ const Container = styled.div`
     display: grid;
     grid-template-columns: 11% 85% 3%;
     grid-template-rows: 100%;
+  
     //imp as without this there was an overflow/ divs size was huge.
     // column-gap: 30px;
     // padding-left: 20px;
-    // align-items: center;
-    // overflow: hidden;
+    align-items: center;
+    overflow: hidden;
     // border-radius: 20px;
     // border: 1px solid white;
   }
@@ -174,14 +175,15 @@ const Container = styled.div`
       //   border: 1px solid white;
       color: white;
       text-transform: uppercase;
+      font-size: 0.8rem; /* Adjusted font size for iPhone */
     }
   }
   .search-box {
     // border: 1px solid white;
     display: flex;
     align-items: center;
-    padding-left: 100px;
-    padding-right: 100px;
+    padding-left: 10px;
+    padding-right: 10px;
   }
 
   .search-box input {
@@ -192,6 +194,7 @@ const Container = styled.div`
     color: white;
     background-color: #131324;
     width: 95%;
+    font-size: 0.8rem;
   }
 
   .search-box button {
@@ -201,6 +204,7 @@ const Container = styled.div`
     border: none;
     border-radius: 5px;
     cursor: pointer;
+    font-size: 0.8rem;
   }
 
   .search-results-fullscreen {
@@ -247,17 +251,19 @@ const Container = styled.div`
     .avatar {
       margin-top: 10px;
       img {
-        height: 3rem;
+        height: 2rem;
       }
     }
     .username {
       h3 {
         color: white;
+        font-size: 0.8rem;
       }
     }
     .userLanguage {
       h5 {
         color: white;
+        font-size: 0.8rem;
       }
     }
   }
@@ -308,6 +314,11 @@ const Container = styled.div`
 
   .dropdown:hover .dropdown-content {
     display: block;
+  }
+  @media screen and (max-width: 375px) { /* iPhone width */
+    .navbar {
+      grid-template-columns: 10% 80% 10%;
+    }
   }
 `;
 
